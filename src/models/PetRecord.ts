@@ -1,0 +1,4 @@
+import {Schema,model,models} from 'mongoose';
+const attachment=new Schema({name:String,mimeType:String,url:String,size:Number},{_id:true});
+const schema=new Schema({ownerId:{type:Schema.Types.ObjectId,ref:'User',required:true,index:true},petId:{type:Schema.Types.ObjectId,ref:'Pet',required:true,index:true},type:{type:String,enum:['consultation','exam','vaccine','medication','weight','preventive','procedure','document','food','note'],required:true,index:true},title:{type:String,required:true},date:{type:Date,required:true},nextDate:Date,status:{type:String,enum:['ok','upcoming','overdue','active','done']},notes:String,clinic:String,veterinarian:String,metadata:Schema.Types.Mixed,attachments:[attachment]},{timestamps:true});
+export const PetRecord=models.PetRecord||model('PetRecord',schema);

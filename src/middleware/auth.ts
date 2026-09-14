@@ -1,0 +1,2 @@
+import {Request,Response,NextFunction} from 'express'; import jwt from 'jsonwebtoken';
+export function auth(req:Request,res:Response,next:NextFunction){ const raw=req.headers.authorization; const token=raw?.startsWith('Bearer ')?raw.slice(7):null; if(!token)return res.status(401).json({message:'Não autenticado'}); try{const p=jwt.verify(token,process.env.JWT_SECRET!) as any;req.user={id:p.sub,email:p.email,name:p.name,picture:p.picture};next();}catch{return res.status(401).json({message:'Token inválido'})} }
